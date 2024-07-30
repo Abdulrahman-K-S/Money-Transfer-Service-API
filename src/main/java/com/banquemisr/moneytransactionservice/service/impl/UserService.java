@@ -7,6 +7,7 @@ import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -40,6 +41,7 @@ public class UserService implements IUser {
     }
 
     @Override
+    @Transactional
     public UserDTO register(CreateUserDTO createUserDTO) {
         checkIfUsernameOrEmailExists(createUserDTO.getUsername(), createUserDTO.getEmail());
 
