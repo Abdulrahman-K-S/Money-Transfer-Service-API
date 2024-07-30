@@ -18,8 +18,8 @@ public class MoneyTransferServiceExceptionHandler {
     }
 
     @ExceptionHandler(value = UserAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse handleException(UserAlreadyExistsException ex) {
-        return new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 }
