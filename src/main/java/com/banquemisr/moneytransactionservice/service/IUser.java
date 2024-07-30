@@ -14,7 +14,7 @@ public interface IUser {
      * @param email The user's email
      * @throws UserAlreadyExistsException if the username or email are already present.
      * */
-    public void checkIfUsernameOrEmailExists(String username, String email) throws UserAlreadyExistsException;
+    void checkIfUsernameOrEmailExists(String username, String email) throws UserAlreadyExistsException;
 
     /**
      * Extracts the info from the createUserDTO into a User object
@@ -22,7 +22,7 @@ public interface IUser {
      * @param createUserDTO The user's register info
      * @return user details @{@link User}
      * */
-    public User extractUserDetails(CreateUserDTO createUserDTO);
+    User extractUserDetails(CreateUserDTO createUserDTO);
 
     /**
      * Register the user into the database.
@@ -30,5 +30,5 @@ public interface IUser {
      * @param createUserDTO The user's register info
      * @return registered user @{@link UserDTO}
      * */
-    public UserDTO register(CreateUserDTO createUserDTO);
+    UserDTO register(CreateUserDTO createUserDTO);
 }
