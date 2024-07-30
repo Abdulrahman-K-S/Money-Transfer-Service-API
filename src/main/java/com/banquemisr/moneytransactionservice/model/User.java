@@ -1,5 +1,6 @@
 package com.banquemisr.moneytransactionservice.model;
 
+import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.dto.enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,25 +20,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
-    @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private Gender gender;
-
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -48,4 +34,25 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Account account;
+
+    private String phone;
+    private Gender gender;
+
+    public UserDTO toUserDTO() {
+        return UserDTO
+                .builder()
+                .username(this.username)
+                .email(this.email)
+                .password(this.password)
+                .build();
+    }
+
+//    @Column(nullable = false)
+//    private String firstName;
+//
+//    @Column(nullable = false)
+//    private String lastName;
+
+//    @Column(nullable = false)
+//    private String address;
 }
