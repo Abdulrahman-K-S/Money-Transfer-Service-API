@@ -5,7 +5,7 @@ import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.User;
 
-public interface IUser {
+public interface IAuthenticator {
 
     /**
      * Checks if the username or email passed are present in the database.

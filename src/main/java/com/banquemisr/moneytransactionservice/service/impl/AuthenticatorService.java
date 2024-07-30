@@ -5,17 +5,17 @@ import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
-import com.banquemisr.moneytransactionservice.service.IUser;
+import com.banquemisr.moneytransactionservice.service.IAuthenticator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class UserService implements IUser {
+public class AuthenticatorService implements IAuthenticator {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public AuthenticatorService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
