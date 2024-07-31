@@ -45,6 +45,7 @@ public class AuthenticatorService implements IAuthenticator {
                 .username(createUserDTO.getUsername())
                 .password(this.passwordEncoder.encode(createUserDTO.getPassword()))
                 .email(createUserDTO.getEmail())
+                .birthDate(createUserDTO.getBirthdate())
                 .gender(createUserDTO.getGender())
                 .phone(createUserDTO.getPhone())
                 .build();
