@@ -45,7 +45,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
-    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(@RequestBody UserIdDTO user) {
+    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(UserIdDTO user) {
         return this.favoriteRecipientsRepository
                 .findByUser_CustomerId(user.getUserId())
                 .stream()
