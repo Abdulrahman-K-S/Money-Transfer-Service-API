@@ -17,10 +17,10 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    @Value("${app.jwt.secret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration.ms}")
+    @Value("${jwt.expiration_ms}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
