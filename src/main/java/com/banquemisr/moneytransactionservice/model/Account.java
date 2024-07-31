@@ -1,5 +1,7 @@
 package com.banquemisr.moneytransactionservice.model;
 
+import com.banquemisr.moneytransactionservice.dto.AccountDTO;
+import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.dto.enums.AccountCurrency;
 import com.banquemisr.moneytransactionservice.dto.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,5 +52,18 @@ public class Account {
     @JsonIgnore
     @OneToOne(mappedBy = "account")
     private User user;
+    public AccountDTO ToDTO() {
+        return AccountDTO.builder()
+                .id(this.accountId)
+                .accountName(this.accountName)
+                .accountDescription(this.accountDescription)
+                .accountType(this.accountType)
+                .accountCurrency(this.accountCurrency)
+                .balance(this.balance)
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
+    }
 }
 

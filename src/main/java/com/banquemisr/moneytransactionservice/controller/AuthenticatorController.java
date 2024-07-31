@@ -1,9 +1,12 @@
 package com.banquemisr.moneytransactionservice.controller;
 
 import com.banquemisr.moneytransactionservice.dto.CreateUserDTO;
+import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
+import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
+import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.service.IAuthenticator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,10 +29,19 @@ public class AuthenticatorController {
     private final IAuthenticator userService;
 
     @Operation(summary = "Register the user")
-    @ApiResponse(responseCode = "201", description = "User registered successfully", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class)) })
-    @ApiResponse(responseCode = "409", description = "User email/username already exists", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+    @ApiResponse(responseCode = "201", description = "User registered successfully", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))})
+    @ApiResponse(responseCode = "409", description = "User email/username already exists", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
     @PostMapping("/register")
     public UserDTO register(CreateUserDTO createUserDTO) throws UserAlreadyExistsException {
         return userService.register(createUserDTO);
     }
+
+    @Operation(summary = "Login")
+    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LoginResponseDTO.class), mediaType = "application/json")})
+    @ApiResponse(responseCode = "401", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
+    @PostMapping("/login")
+    public LoginResponseDTO longin(LoginRequestDTO loginRequestDTO)throws UserNotFoundException {
+        return userService.login(loginRequestDTO);
+    }
 }
+
