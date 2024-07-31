@@ -28,6 +28,9 @@ public class Account {
     @Column(nullable = false)
     private String accountName;
 
+    @Column(nullable = false, unique = true)
+    private String accountNumber;
+
     @Column(nullable = false)
     private String accountDescription;
 
