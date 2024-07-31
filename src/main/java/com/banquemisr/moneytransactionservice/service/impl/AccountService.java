@@ -2,7 +2,6 @@ package com.banquemisr.moneytransactionservice.service.impl;
 
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
-import com.banquemisr.moneytransactionservice.model.Account;
 import org.springframework.stereotype.Service;
 
 
@@ -12,5 +11,14 @@ public class AccountService {
         AccountDTO account = this.getUserAccountBalance(id);
 
         return account.ToDTO();
+    }
+
+    public void transferMoney(Long fromAccountNumber, Long toAccountNumber, double balance) {
+        AccountDTO fromAccount = this.getUserAccountBalance(fromAccountNumber);
+        AccountDTO toAccount = this.getUserAccountBalance(toAccountNumber);
+        if (fromAccount.getBalance() >= balance) {
+            fromAccount.setBalance(fromAccount.getBalance() - balance);
+            toAccount.setBalance(toAccount.getBalance() + balance);
+        }
     }
 }
