@@ -38,4 +38,12 @@ public class FavoriteRecipientsController {
     public ResponseEntity<List<ViewFavoriteRecipientDTO>> getFavoriteRecipients(@RequestBody UserIdDTO user) {
         return ResponseEntity.ok(this.favoriteRecipientsService.getAllFavoriteRecipients(user));
     }
+
+    @Operation(summary = "Deletes a recipient from the favorite's list")
+    @ApiResponse(responseCode = "200")
+    @DeleteMapping("/favorites/{id}")
+    public ResponseEntity<String> deleteFavoriteRecipient(@PathVariable Long id) {
+        favoriteRecipientsService.deleteFavoriteRecipient(id);
+        return ResponseEntity.ok("Deleted recipient");
+    }
 }
