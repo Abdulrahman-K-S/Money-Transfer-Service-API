@@ -4,6 +4,7 @@ import com.banquemisr.moneytransactionservice.dto.AddFavoriteRecipientDTO;
 import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
 import com.banquemisr.moneytransactionservice.dto.ViewFavoriteRecipientDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
+import com.banquemisr.moneytransactionservice.exception.custom.FavoriteRecipientNotFoundException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.model.FavoriteRecipients;
 import com.banquemisr.moneytransactionservice.model.User;
@@ -51,5 +52,13 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
                 .stream()
                 .map(FavoriteRecipients::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteFavoriteRecipient(Long favoriteRecipientId) {
+        if (Boolean.FALSE.equals(this.favoriteRecipientsRepository.existsByFavoriteRecipientId(favoriteRecipientId))) {
+            throw new FavoriteRecipientNotFoundException(String.format("Favorite recipient with id %s not found", favoriteRecipientId));
+        }
+        this.favoriteRecipientsRepository.delete(this.favoriteRecipientsRepository.findByFavoriteRecipientId(favoriteRecipientId));
     }
 }
