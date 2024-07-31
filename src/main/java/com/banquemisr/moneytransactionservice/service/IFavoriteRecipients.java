@@ -24,5 +24,12 @@ public interface IFavoriteRecipients {
      * @param user The user ID
      * @return A list of all the favorite recipients @{@link ViewFavoriteRecipientDTO}
      * */
-    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(@RequestBody UserIdDTO user);
+    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(UserIdDTO user);
+
+    /**
+     * Deletes a recipient from the favorite's list
+     *
+     * @param favoriteRecipientId The favorite recipient id
+     * */
+    public void deleteFavoriteRecipient(Long favoriteRecipientId);
 }
