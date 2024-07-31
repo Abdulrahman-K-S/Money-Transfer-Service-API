@@ -52,9 +52,17 @@ public class Account {
     @JsonIgnore
     @OneToOne(mappedBy = "account")
     private User user;
-    public AccountDTO balanceToDTO() {
+    public AccountDTO ToDTO() {
         return AccountDTO.builder()
+                .id(this.accountId)
+                .accountName(this.accountName)
+                .accountDescription(this.accountDescription)
+                .accountType(this.accountType)
+                .accountCurrency(this.accountCurrency)
                 .balance(this.balance)
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
                 .build();
     }
 }

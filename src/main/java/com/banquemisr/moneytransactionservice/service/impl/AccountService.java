@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
     public AccountDTO getUserAccountBalance(Long id) throws UserNotFoundException {
-        Account account = this.getUserAccountBalance(id);
+        AccountDTO account = this.getUserAccountBalance(id);
 
-        return account.balanceToDTO();
+        return account.ToDTO();
     }
 }
