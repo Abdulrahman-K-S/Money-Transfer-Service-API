@@ -2,6 +2,7 @@ package com.banquemisr.moneytransactionservice.dto;
 
 import com.banquemisr.moneytransactionservice.dto.enums.AccountCurrency;
 import com.banquemisr.moneytransactionservice.dto.enums.AccountType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
