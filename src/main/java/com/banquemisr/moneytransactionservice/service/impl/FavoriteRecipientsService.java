@@ -1,6 +1,8 @@
 package com.banquemisr.moneytransactionservice.service.impl;
 
 import com.banquemisr.moneytransactionservice.dto.AddFavoriteRecipientDTO;
+import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
+import com.banquemisr.moneytransactionservice.dto.ViewFavoriteRecipientDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.model.FavoriteRecipients;
@@ -12,6 +14,10 @@ import com.banquemisr.moneytransactionservice.service.IFavoriteRecipients;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +42,14 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
                 .build();
 
         return favoriteRecipientsRepository.save(recipient);
+    }
+
+    @Override
+    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(@RequestBody UserIdDTO user) {
+        return this.favoriteRecipientsRepository
+                .findByUser_CustomerId(user.getUserId())
+                .stream()
+                .map(FavoriteRecipients::toDTO)
+                .collect(Collectors.toList());
     }
 }
