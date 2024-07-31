@@ -3,6 +3,7 @@ package com.banquemisr.moneytransactionservice.controller;
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
+import com.banquemisr.moneytransactionservice.exception.custom.NoTransactionsMadeException;
 import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.service.impl.AccountService;
@@ -13,6 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +24,7 @@ public class AccountController {
     //    Get the current account balance for the authenticated user
     private AccountService accountService;
 
-    @Operation(summary = "Get Customer Account Balance")
+    @Operation(summary = "Get user Account Balance")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @GetMapping("/balance")
@@ -34,5 +37,12 @@ public class AccountController {
     @PostMapping("/transfer")
     public void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException , NotEnoughMoneyException {
         accountService.transferMoney(fromAccountNumber,toAccountNumber,balance);
+    }
+    @Operation(summary = "Get user transaction history")
+    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
+    @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
+    @GetMapping("/transactions")
+    public HashMap<Long, Double> transactionHistory(Long AccountNumber) throws UserNotFoundException , NoTransactionsMadeException {
+        return accountService.transactionHistory(AccountNumber);
     }
 }
