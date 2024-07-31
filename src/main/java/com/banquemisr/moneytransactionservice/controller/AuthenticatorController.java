@@ -36,7 +36,7 @@ public class AuthenticatorController {
         return userService.register(createUserDTO);
     }
 
-    @Operation(summary = "Login")
+    @Operation(summary = "Login user into system and generate JWT token")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LoginResponseDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "401", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @PostMapping("/login")
