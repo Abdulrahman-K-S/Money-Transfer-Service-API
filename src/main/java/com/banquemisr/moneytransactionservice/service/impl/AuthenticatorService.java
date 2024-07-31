@@ -8,6 +8,7 @@ import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExists
 import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IAuthenticator;
+import com.banquemisr.moneytransactionservice.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

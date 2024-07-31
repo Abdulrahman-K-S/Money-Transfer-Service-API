@@ -1,6 +1,7 @@
-package com.banquemisr.moneytransactionservice.service.impl;
+package com.banquemisr.moneytransactionservice.utils;
 
 
+import com.banquemisr.moneytransactionservice.service.impl.CustomerDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
