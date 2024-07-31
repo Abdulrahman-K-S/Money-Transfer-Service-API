@@ -3,6 +3,7 @@ package com.banquemisr.moneytransactionservice.controller;
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
+import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.service.impl.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,10 +11,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
@@ -25,14 +24,15 @@ public class AccountController {
     @Operation(summary = "Get Customer Account Balance")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
-    @GetMapping("/{id}")
+    @GetMapping("/balance")
     public AccountDTO getUserAccountBalance(@PathVariable Long id) throws UserNotFoundException {
         return accountService.getUserAccountBalance(id);
     }
     @Operation(summary = "Transfer money to another user")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
-    public void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException {
+    @PostMapping("/transfer")
+    public void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException , NotEnoughMoneyException {
         accountService.transferMoney(fromAccountNumber,toAccountNumber,balance);
     }
 }
