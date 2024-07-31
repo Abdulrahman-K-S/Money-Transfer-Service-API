@@ -1,6 +1,8 @@
 package com.banquemisr.moneytransactionservice.service;
 
 import com.banquemisr.moneytransactionservice.dto.CreateUserDTO;
+import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
+import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.User;
@@ -31,4 +33,11 @@ public interface IAuthenticator {
      * @return registered user @{@link UserDTO}
      * */
     UserDTO register(CreateUserDTO createUserDTO);
+    /**
+     * log the user into the database.
+     *
+     * @param loginRequestDTO The user's credentials
+     * @return user logged in @{@link LoginResponseDTO}
+     * */
+    LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
 }
