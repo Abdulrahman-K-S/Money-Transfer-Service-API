@@ -1,5 +1,6 @@
 package com.banquemisr.moneytransactionservice.model;
 
+import com.banquemisr.moneytransactionservice.dto.ViewFavoriteRecipientDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,13 @@ public class FavoriteRecipients {
 
     @Column(nullable = false)
     private String recipientAccountNumber;
+
+    public ViewFavoriteRecipientDTO toDTO() {
+        return ViewFavoriteRecipientDTO
+                .builder()
+                .favoriteRecipientId(this.favoriteRecipientId)
+                .recipientName(this.recipientName)
+                .recipientAccountNumber(this.recipientAccountNumber)
+                .build();
+    }
 }
