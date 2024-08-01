@@ -7,7 +7,6 @@ import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundExcep
 import com.banquemisr.moneytransactionservice.model.Account;
 import com.banquemisr.moneytransactionservice.repository.AccountRepository;
 import com.banquemisr.moneytransactionservice.service.IAccount;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,20 +37,23 @@ public class AccountService implements IAccount {
         return this.accountRepository.save(account).ToDTO();
     }
 
-    public AccountDTO getUserAccountBalance(Long id) throws UserNotFoundException {
-        AccountDTO account = this.getUserAccountBalance(id);
-
-        return account.ToDTO();
+    public double getUserAccountBalance(Long accountNumber) throws UserNotFoundException {
+        Account account = this.accountRepository.findById(accountNumber).orElseThrow(UserNotFoundException::new);
+        return account.getBalance();
     }
 
     public void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException , NotEnoughMoneyException {
-        AccountDTO fromAccount = this.getUserAccountBalance(fromAccountNumber);
-        AccountDTO toAccount = this.getUserAccountBalance(toAccountNumber);
-        if (fromAccount.getBalance() >= balance) {
+        Account fromAccount = this.accountRepository.findById(fromAccountNumber).orElseThrow(UserNotFoundException::new);
+        Account toAccount = this.accountRepository.findById(toAccountNumber).orElseThrow(UserNotFoundException::new);
+
+        if (fromAccount.getBalance() < balance) {
+            throw new NotEnoughMoneyException();
+        }
+        else {
             fromAccount.setBalance(fromAccount.getBalance() - balance);
             toAccount.setBalance(toAccount.getBalance() + balance);
-            debit.put(toAccountNumber, balance);
-            credit.put(fromAccountNumber, balance);
+            this.accountRepository.save(fromAccount);
+            this.accountRepository.save(toAccount);
         }
     }
 

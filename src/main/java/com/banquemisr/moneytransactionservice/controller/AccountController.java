@@ -35,7 +35,7 @@ public class AccountController {
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @GetMapping("/balance")
-    public AccountDTO getUserAccountBalance(@RequestBody UserIdDTO user) throws UserNotFoundException {
+    public double getUserAccountBalance(@RequestBody UserIdDTO user) throws UserNotFoundException {
         return accountService.getUserAccountBalance(user.getUserId());
     }
     @Operation(summary = "Transfer money to another user")

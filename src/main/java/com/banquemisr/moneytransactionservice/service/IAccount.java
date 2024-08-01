@@ -21,10 +21,10 @@ public interface IAccount {
      * Get user Account Balance
      *
      * @param id                user account number
-     * @return user balance @{@link AccountDTO}
+     * @return user balance @{@link Double}
      * @throws UserNotFoundException if user not found
      */
-     AccountDTO getUserAccountBalance(Long id) throws UserNotFoundException ;
+     double getUserAccountBalance(Long id) throws UserNotFoundException ;
 
     /**
      * Transfer money to another user
