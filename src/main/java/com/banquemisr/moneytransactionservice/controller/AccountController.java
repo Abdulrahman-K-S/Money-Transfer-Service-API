@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,10 +21,15 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @Tag(name = "Account Controller", description = "The account controller endpoints")
 public class AccountController {
-    //    Get the current account balance for the authenticated user
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    @PostMapping("/create_account")
+    public AccountDTO createAccount(@RequestBody AccountDTO accountDTO) {
+        return this.accountService.createAccount(accountDTO);
+    }
 
     @Operation(summary = "Get user Account Balance")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
