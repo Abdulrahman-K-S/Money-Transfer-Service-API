@@ -2,6 +2,7 @@ package com.banquemisr.moneytransactionservice.controller;
 
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
+import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
 import com.banquemisr.moneytransactionservice.exception.custom.NoTransactionsMadeException;
 import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
@@ -28,8 +29,8 @@ public class AccountController {
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @GetMapping("/balance")
-    public AccountDTO getUserAccountBalance(@PathVariable Long id) throws UserNotFoundException {
-        return accountService.getUserAccountBalance(id);
+    public AccountDTO getUserAccountBalance(@RequestBody UserIdDTO user) throws UserNotFoundException {
+        return accountService.getUserAccountBalance(user.getUserId());
     }
     @Operation(summary = "Transfer money to another user")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
