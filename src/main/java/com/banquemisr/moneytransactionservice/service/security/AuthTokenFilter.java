@@ -12,18 +12,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
-    private CustomerDetailsServiceImpl customerDetailsService;
+    private final CustomerDetailsServiceImpl customerDetailsService;
 
 
     @Override
