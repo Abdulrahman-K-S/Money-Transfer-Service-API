@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,8 +33,8 @@ public class User {
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Account account;
+    @OneToMany(mappedBy = "user")
+    private List<Account> account;
 
     private String phone;
     private Gender gender;
