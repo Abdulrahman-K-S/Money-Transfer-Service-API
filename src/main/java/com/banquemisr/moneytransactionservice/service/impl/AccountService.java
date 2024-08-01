@@ -1,8 +1,10 @@
 package com.banquemisr.moneytransactionservice.service.impl;
 
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
+import com.banquemisr.moneytransactionservice.exception.custom.NoTransactionsMadeException;
 import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
+import com.banquemisr.moneytransactionservice.service.IAccount;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.Objects;
 
 
 @Service
-public class AccountService {
+public class AccountService implements IAccount {
     private HashMap<Long, Double> debit = new HashMap<>();
     private HashMap<Long, Double> credit = new HashMap<>();
     private HashMap<Long, Double> last = new HashMap<>();
@@ -31,7 +33,7 @@ public class AccountService {
         }
     }
 
-    public HashMap<Long, Double> transactionHistory(Long accountNumber) {
+    public HashMap<Long, Double> transactionHistory(Long accountNumber) throws UserNotFoundException,NoTransactionsMadeException {
         last.clear();
         debit.forEach((key, value) -> {
             if (Objects.equals(key, accountNumber)) {
