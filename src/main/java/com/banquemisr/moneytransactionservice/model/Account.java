@@ -60,6 +60,7 @@ public class Account {
                 .id(this.accountId)
                 .accountName(this.accountName)
                 .accountDescription(this.accountDescription)
+                .accountNumber(this.accountNumber)
                 .accountType(this.accountType)
                 .accountCurrency(this.accountCurrency)
                 .balance(this.balance)
