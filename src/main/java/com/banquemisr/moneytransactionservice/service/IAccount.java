@@ -10,6 +10,14 @@ import java.util.HashMap;
 public interface IAccount {
 
     /**
+     * Creates an account
+     *
+     * @param accountDTO The account DTO
+     * @return The account created @{@link AccountDTO}
+     * */
+    AccountDTO createAccount(AccountDTO accountDTO);
+
+    /**
      * Get user Account Balance
      *
      * @param id                user account number
@@ -27,7 +35,6 @@ public interface IAccount {
      * @throws UserNotFoundException if user not found
      * @throws NotEnoughMoneyException if user does not have enough money
      */
-
      void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException , NotEnoughMoneyException ;
 
     /**
@@ -38,7 +45,6 @@ public interface IAccount {
      * @throws UserNotFoundException if user not found
      * @throws NoTransactionsMadeException if user has not made any transactions
      */
-
      HashMap<Long, Double> transactionHistory(Long accountNumber) throws UserNotFoundException,NoTransactionsMadeException;
 
 
