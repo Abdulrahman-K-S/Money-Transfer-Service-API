@@ -22,6 +22,18 @@ public class MoneyTransferServiceExceptionHandler {
         return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 
+    @ExceptionHandler(value = FavoriteRecipientAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public @ResponseBody ErrorResponse handleException(FavoriteRecipientAlreadyExistsException ex) {
+        return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value = FavoriteRecipientAccessNotAllowedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public @ResponseBody ErrorResponse handleException(FavoriteRecipientAccessNotAllowedException ex) {
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+    }
+
     @ExceptionHandler(value = AccountAccessNotAllowedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public @ResponseBody ErrorResponse handleException(AccountAccessNotAllowedException ex) {
