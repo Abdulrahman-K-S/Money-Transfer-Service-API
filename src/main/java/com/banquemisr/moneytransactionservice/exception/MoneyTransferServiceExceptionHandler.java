@@ -1,9 +1,6 @@
 package com.banquemisr.moneytransactionservice.exception;
 
-import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
-import com.banquemisr.moneytransactionservice.exception.custom.FavoriteRecipientNotFoundException;
-import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
-import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
+import com.banquemisr.moneytransactionservice.exception.custom.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +20,12 @@ public class MoneyTransferServiceExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse handleException(UserAlreadyExistsException ex) {
         return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value = AccountAccessNotAllowedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public @ResponseBody ErrorResponse handleException(AccountAccessNotAllowedException ex) {
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
     }
 
     @ExceptionHandler(value = AccountNotFoundException.class)
