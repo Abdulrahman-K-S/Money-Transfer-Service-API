@@ -5,7 +5,9 @@ import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
 import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
+import com.banquemisr.moneytransactionservice.model.BlackListedTokens;
 import com.banquemisr.moneytransactionservice.model.User;
+import com.banquemisr.moneytransactionservice.repository.BlacklistedTokenRepository;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IAuthenticator;
 import com.banquemisr.moneytransactionservice.utils.JwtUtils;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthenticatorService implements IAuthenticator {
 
     private final UserRepository userRepository;
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
@@ -76,5 +79,14 @@ public class AuthenticatorService implements IAuthenticator {
                 .status(HttpStatus.ACCEPTED)
                 .tokenType("Bearer")
                 .build();
+    }
+
+    @Override
+    public void logout(String token) {
+        BlackListedTokens blackListedToken = BlackListedTokens
+                .builder()
+                .token(token)
+                .build();
+        this.blacklistedTokenRepository.save(blackListedToken);
     }
 }

@@ -33,6 +33,7 @@ public interface IAuthenticator {
      * @return registered user @{@link UserDTO}
      * */
     UserDTO register(CreateUserDTO createUserDTO);
+
     /**
      * log the user into the database.
      *
@@ -40,4 +41,11 @@ public interface IAuthenticator {
      * @return user logged in @{@link LoginResponseDTO}
      * */
     LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
+
+    /**
+     * Logout the user from the system by blacklisting the token
+     *
+     * @param token The token to blacklist
+     * */
+    void logout(String token);
 }

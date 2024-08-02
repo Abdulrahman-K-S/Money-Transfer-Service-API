@@ -1,5 +1,6 @@
 package com.banquemisr.moneytransactionservice.service.security;
 
+import com.banquemisr.moneytransactionservice.repository.BlacklistedTokenRepository;
 import com.banquemisr.moneytransactionservice.service.impl.CustomerDetailsServiceImpl;
 import com.banquemisr.moneytransactionservice.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
@@ -24,7 +25,7 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
-
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
     private final CustomerDetailsServiceImpl customerDetailsService;
 
 
@@ -32,6 +33,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
+            if (blacklistedTokenRepository.existsByToken(jwt)) {
+                logger.warn("JWT token is blacklisted");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token is blacklisted");
+                return;
+            }
+
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 

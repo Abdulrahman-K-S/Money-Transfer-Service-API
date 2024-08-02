@@ -14,10 +14,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -41,6 +40,19 @@ public class AuthenticatorController {
     @PostMapping("/login")
     public LoginResponseDTO longin(@RequestBody LoginRequestDTO loginRequestDTO)throws UserNotFoundException {
         return userService.login(loginRequestDTO);
+    }
+
+    @Operation(summary = "Logout the user from the system")
+    @ApiResponse(responseCode = "200", description = "User logged out successfully", content = {@Content(schema = @Schema(implementation = String.class))})
+    @ApiResponse(responseCode = "403", description = "User not authorized", content = {@Content(examples = {})})
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.substring("Bearer ".length());
+        this.userService.logout(token);
+        return new ResponseEntity<>(
+                "User logged out successfully",
+                HttpStatus.OK
+        );
     }
 }
 
