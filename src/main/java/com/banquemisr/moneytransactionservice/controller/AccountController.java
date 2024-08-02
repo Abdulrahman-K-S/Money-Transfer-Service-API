@@ -1,10 +1,7 @@
 package com.banquemisr.moneytransactionservice.controller;
 
-import com.banquemisr.moneytransactionservice.dto.AccountDTO;
-import com.banquemisr.moneytransactionservice.dto.UserDTO;
-import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
+import com.banquemisr.moneytransactionservice.dto.*;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
-import com.banquemisr.moneytransactionservice.exception.custom.NoTransactionsMadeException;
 import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.service.impl.AccountService;
@@ -14,9 +11,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 
 @RestController
@@ -38,18 +35,15 @@ public class AccountController {
     public double getUserAccountBalance(@RequestBody UserIdDTO user) throws UserNotFoundException {
         return accountService.getUserAccountBalance(user.getUserId());
     }
-    @Operation(summary = "Transfer money to another user")
+
+    @Operation(summary = "Transfer money to another account and create a transaction ticket")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @PostMapping("/transfer")
-    public void transferMoney(Long fromAccountNumber,Long toAccountNumber,double balance) throws UserNotFoundException , NotEnoughMoneyException {
-        accountService.transferMoney(fromAccountNumber,toAccountNumber,balance);
-    }
-    @Operation(summary = "Get user transaction history")
-    @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
-    @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
-    @GetMapping("/transactions")
-    public HashMap<Long, Double> transactionHistory(Long AccountNumber) throws UserNotFoundException , NoTransactionsMadeException {
-        return accountService.transactionHistory(AccountNumber);
+    public ResponseEntity<UserTransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO) throws UserNotFoundException , NotEnoughMoneyException {
+        return new ResponseEntity<>(
+                this.accountService.transferMoney(transactionDTO),
+                HttpStatus.CREATED
+        );
     }
 }
