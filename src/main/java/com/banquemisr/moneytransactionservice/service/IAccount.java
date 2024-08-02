@@ -3,6 +3,8 @@ package com.banquemisr.moneytransactionservice.service;
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
+import com.banquemisr.moneytransactionservice.exception.custom.AccountAccessNotAllowedException;
+import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
 import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 
@@ -17,13 +19,14 @@ public interface IAccount {
     AccountDTO createAccount(AccountDTO accountDTO);
 
     /**
-     * Get user Account Balance
+     * Gets user Account Balance
      *
-     * @param id                user account number
+     * @param accountNumber user account number
      * @return user balance @{@link Double}
-     * @throws UserNotFoundException if user not found
+     * @throws AccountAccessNotAllowedException if user isn't the owner of the account
+     * @throws AccountNotFoundException if account not found
      */
-     double getUserAccountBalance(Long id) throws UserNotFoundException ;
+     double getUserAccountBalance(String accountNumber, String email) throws AccountNotFoundException, AccountAccessNotAllowedException;
 
     /**
      * Transfer money from an account to the other
@@ -32,5 +35,5 @@ public interface IAccount {
      * @throws UserNotFoundException if user not found
      * @throws NotEnoughMoneyException if user does not have enough money
      */
-     UserTransactionDTO transferMoney(TransactionDTO transactionDTO) throws UserNotFoundException , NotEnoughMoneyException ;
+     UserTransactionDTO transferMoney(TransactionDTO transactionDTO) throws UserNotFoundException, NotEnoughMoneyException;
 }
