@@ -2,6 +2,7 @@ package com.banquemisr.moneytransactionservice.model;
 
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.dto.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class User {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Account> account;
 
