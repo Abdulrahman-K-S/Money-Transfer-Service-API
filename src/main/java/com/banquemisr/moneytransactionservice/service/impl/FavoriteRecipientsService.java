@@ -1,21 +1,16 @@
 package com.banquemisr.moneytransactionservice.service.impl;
 
 import com.banquemisr.moneytransactionservice.dto.AddFavoriteRecipientDTO;
-import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
 import com.banquemisr.moneytransactionservice.dto.ViewFavoriteRecipientDTO;
-import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
-import com.banquemisr.moneytransactionservice.exception.custom.FavoriteRecipientNotFoundException;
-import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
+import com.banquemisr.moneytransactionservice.exception.custom.*;
 import com.banquemisr.moneytransactionservice.model.FavoriteRecipients;
 import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.AccountRepository;
 import com.banquemisr.moneytransactionservice.repository.FavoriteRecipientsRepository;
-import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IFavoriteRecipients;
-import lombok.AllArgsConstructor;
+import com.banquemisr.moneytransactionservice.service.IUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,17 +18,24 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class FavoriteRecipientsService implements IFavoriteRecipients {
+
     private final FavoriteRecipientsRepository favoriteRecipientsRepository;
-    private final UserRepository userRepository;
+    private final IUser userService;
     private final AccountRepository accountRepository;
 
     @Override
-    public FavoriteRecipients addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO) {
-        User user = userRepository.findById(favoriteRecipientDTO.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(String.format("User with user id %s not found", favoriteRecipientDTO.getUserId())));
+    public void checkIfAccountExistsAndNotAlreadyInFavorites(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
         if (Boolean.FALSE.equals(this.accountRepository.existsByAccountNumber(favoriteRecipientDTO.getRecipientAccountNumber()))) {
             throw new AccountNotFoundException(String.format("Account number %s not found", favoriteRecipientDTO.getRecipientAccountNumber()));
+        } else if (Boolean.TRUE.equals(this.favoriteRecipientsRepository.existsFavoriteRecipientsByRecipientAccountNumberAndUser_Email(favoriteRecipientDTO.getRecipientAccountNumber(), email))) {
+            throw new FavoriteRecipientAlreadyExistsException("This recipient already exists in favorites");
         }
+    }
+
+    @Override
+    public ViewFavoriteRecipientDTO addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws UserNotFoundException, AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
+        User user = this.userService.getUserIfExistsByEmail(email);
+        checkIfAccountExistsAndNotAlreadyInFavorites(favoriteRecipientDTO, email);
 
         FavoriteRecipients recipient = FavoriteRecipients
                 .builder()
@@ -42,22 +44,24 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
                 .recipientAccountNumber(favoriteRecipientDTO.getRecipientAccountNumber())
                 .build();
 
-        return favoriteRecipientsRepository.save(recipient);
+        return favoriteRecipientsRepository.save(recipient).toDTO();
     }
 
     @Override
-    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(UserIdDTO user) {
+    public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(String email) {
         return this.favoriteRecipientsRepository
-                .findByUser_CustomerId(user.getUserId())
+                .findByUser_Email(email)
                 .stream()
                 .map(FavoriteRecipients::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteFavoriteRecipient(Long favoriteRecipientId) {
+    public void deleteFavoriteRecipient(Long favoriteRecipientId, String email) throws FavoriteRecipientNotFoundException, FavoriteRecipientAccessNotAllowedException {
         if (Boolean.FALSE.equals(this.favoriteRecipientsRepository.existsByFavoriteRecipientId(favoriteRecipientId))) {
             throw new FavoriteRecipientNotFoundException(String.format("Favorite recipient with id %s not found", favoriteRecipientId));
+        } else if (Boolean.FALSE.equals(this.favoriteRecipientsRepository.existsFavoriteRecipientsByFavoriteRecipientIdAndUser_Email(favoriteRecipientId, email))) {
+            throw new FavoriteRecipientAccessNotAllowedException(String.format("User with email %s isn't the favorite recipient owner", email));
         }
         this.favoriteRecipientsRepository.delete(this.favoriteRecipientsRepository.findByFavoriteRecipientId(favoriteRecipientId));
     }
