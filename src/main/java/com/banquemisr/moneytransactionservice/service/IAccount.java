@@ -14,9 +14,10 @@ public interface IAccount {
      * Creates an account
      *
      * @param accountDTO The account DTO
+     * @param email The user's email
      * @return The account created @{@link AccountDTO}
      * */
-    AccountDTO createAccount(AccountDTO accountDTO);
+    AccountDTO createAccount(AccountDTO accountDTO, String email);
 
     /**
      * Gets user Account Balance

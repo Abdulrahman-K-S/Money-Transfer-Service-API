@@ -25,8 +25,9 @@ public class AccountController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/create_account")
-    public AccountDTO createAccount(@RequestBody AccountDTO accountDTO) {
-        return this.accountService.createAccount(accountDTO);
+    public AccountDTO createAccount(@RequestHeader("Authorization") String authorizationHeader, @RequestBody AccountDTO accountDTO) {
+        String email = jwtUtils.getEmailFromHeader(authorizationHeader);
+        return this.accountService.createAccount(accountDTO, email);
     }
 
     @Operation(summary = "Get user Account Balance")
