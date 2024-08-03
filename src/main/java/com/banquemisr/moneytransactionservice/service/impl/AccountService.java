@@ -54,6 +54,7 @@ public class AccountService implements IAccount {
         Account toAccount = this.accountRepository.findByAccountNumber(transactionDTO.getToAccountNumber()).orElseThrow(UserNotFoundException::new);
 
         if (fromAccount.getBalance() < transactionDTO.getAmount()) {
+            // Save failed transaction for web/application view
             throw new NotEnoughMoneyException();
         }
         fromAccount.setBalance(fromAccount.getBalance() - transactionDTO.getAmount());

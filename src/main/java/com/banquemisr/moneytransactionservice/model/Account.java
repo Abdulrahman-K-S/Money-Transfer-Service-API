@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account { // add Expiry date (MM/YY) & cvv & otp
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long accountId;
@@ -31,10 +31,10 @@ public class Account {
     private String accountNumber;
 
     @Column(nullable = false)
-    private String accountDescription;
+    private String accountDescription; // Not used by applicatino
 
     @Column(nullable = false)
-    private AccountType accountType;
+    private AccountType accountType; // Not used by application
 
     @Column(nullable = false)
     private AccountCurrency accountCurrency;

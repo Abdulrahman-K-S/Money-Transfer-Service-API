@@ -22,7 +22,7 @@ public class UserTransactions {
     @ManyToOne
     private Transaction transaction;
 
-    private String status = "pending";
+    private String status = "pending"; // Create an enum for status
 
     public UserTransactionDTO toDTO() {
         return UserTransactionDTO
