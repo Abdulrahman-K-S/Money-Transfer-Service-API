@@ -3,10 +3,7 @@ package com.banquemisr.moneytransactionservice.service.impl;
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
-import com.banquemisr.moneytransactionservice.exception.custom.AccountAccessNotAllowedException;
-import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
-import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
-import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
+import com.banquemisr.moneytransactionservice.exception.custom.*;
 import com.banquemisr.moneytransactionservice.model.Account;
 import com.banquemisr.moneytransactionservice.model.Transaction;
 import com.banquemisr.moneytransactionservice.repository.AccountRepository;
@@ -27,6 +24,9 @@ public class AccountService implements IAccount {
 
     @Override
     public AccountDTO createAccount(AccountDTO accountDTO, String email) {
+        if (Boolean.TRUE.equals(this.accountRepository.existsByAccountNumber(accountDTO.getAccountNumber()))) {
+            throw new AccountAlreadyExistsException(String.format("Account number %s already exists", accountDTO.getAccountNumber()));
+        }
         Account account = Account
                 .builder()
                 .accountName(accountDTO.getAccountName())
