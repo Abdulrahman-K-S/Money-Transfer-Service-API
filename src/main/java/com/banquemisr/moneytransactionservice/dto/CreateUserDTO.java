@@ -1,7 +1,7 @@
 package com.banquemisr.moneytransactionservice.dto;
 
+import com.banquemisr.moneytransactionservice.dto.enums.Country;
 import com.banquemisr.moneytransactionservice.dto.enums.Gender;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,4 +16,5 @@ public class CreateUserDTO {
     private LocalDate birthdate;
     private String phone;
     private Gender gender;
+    private Country country;
 }
