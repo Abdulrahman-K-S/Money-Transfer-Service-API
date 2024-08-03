@@ -22,6 +22,12 @@ public class MoneyTransferServiceExceptionHandler {
         return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 
+    @ExceptionHandler(value = AccountAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public @ResponseBody ErrorResponse handleException(AccountAlreadyExistsException ex) {
+        return new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
+    }
+
     @ExceptionHandler(value = FavoriteRecipientAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse handleException(FavoriteRecipientAlreadyExistsException ex) {
