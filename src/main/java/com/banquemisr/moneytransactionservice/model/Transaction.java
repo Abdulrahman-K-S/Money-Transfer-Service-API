@@ -24,8 +24,6 @@ public class Transaction {
     @Column(nullable = false)
     private double amount;
 
-    private String description;
-
     @ManyToOne
     private Account fromAccount;
 

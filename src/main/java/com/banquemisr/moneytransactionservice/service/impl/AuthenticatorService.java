@@ -51,6 +51,7 @@ public class AuthenticatorService implements IAuthenticator {
                 .birthDate(createUserDTO.getBirthdate())
                 .gender(createUserDTO.getGender())
                 .phone(createUserDTO.getPhone())
+                .country(createUserDTO.getCountry())
                 .build();
     }
 

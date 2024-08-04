@@ -2,7 +2,6 @@ package com.banquemisr.moneytransactionservice.model;
 
 import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.enums.AccountCurrency;
-import com.banquemisr.moneytransactionservice.dto.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account { // add Expiry date (MM/YY) & cvv & otp
+public class Account {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long accountId;
@@ -31,19 +30,25 @@ public class Account { // add Expiry date (MM/YY) & cvv & otp
     private String accountNumber;
 
     @Column(nullable = false)
-    private String accountDescription; // Not used by applicatino
+    private String expiryMonth;
 
     @Column(nullable = false)
-    private AccountType accountType; // Not used by application
+    private String expiryYear;
 
     @Column(nullable = false)
     private AccountCurrency accountCurrency;
+
+    @Column(nullable = false)
+    private String cvv;
 
     @Column(nullable = false) @Builder.Default
     private Double balance = 0.0;
 
     @Column(nullable = false) @Builder.Default
     private Boolean isActive = true;
+
+    @Column(nullable = false)
+    private String otp;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -59,15 +64,15 @@ public class Account { // add Expiry date (MM/YY) & cvv & otp
         return AccountDTO.builder()
                 .id(this.accountId)
                 .accountName(this.accountName)
-                .accountDescription(this.accountDescription)
                 .accountNumber(this.accountNumber)
-                .accountType(this.accountType)
+                .expiryDate(this.expiryMonth + "/" + this.expiryYear)
                 .accountCurrency(this.accountCurrency)
+                .cvv(this.cvv)
                 .balance(this.balance)
                 .isActive(this.isActive)
                 .createdAt(this.createdAt)
                 .updatedAt(this.updatedAt)
+                .otp(this.otp)
                 .build();
     }
 }
-

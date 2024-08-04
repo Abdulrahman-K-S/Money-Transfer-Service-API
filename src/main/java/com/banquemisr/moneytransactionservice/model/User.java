@@ -1,6 +1,7 @@
 package com.banquemisr.moneytransactionservice.model;
 
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
+import com.banquemisr.moneytransactionservice.dto.enums.Country;
 import com.banquemisr.moneytransactionservice.dto.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -38,6 +39,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Account> account;
 
+    private Country country;
     private String phone;
     private Gender gender;
 
