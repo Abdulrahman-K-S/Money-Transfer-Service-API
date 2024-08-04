@@ -24,11 +24,14 @@ public interface ITransaction {
     /**
      * Add a transaction to the user's transaction history
      *
-     * @param transaction The transaction done
-     * @param user The user doing the transaction
+     * @param fromAccount  The account the money is being transferred from
+     * @param toAccount    The account the money is being transferred to
+     * @param amount       The amount being transferred
+     * @param user         The user doing the transaction
+     * @param status       The status of the transaction
      * @return user transaction table details @{@link UserTransactionDTO}
      * */
-    UserTransactionDTO addToTransactionHistory(Transaction transaction, User user);
+    UserTransactionDTO addToTransactionHistory(Account fromAccount, Account toAccount, double amount, User user, String status);
 
     /**
      * Retrieves the user transaction history
