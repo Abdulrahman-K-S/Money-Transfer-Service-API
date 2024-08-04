@@ -1,5 +1,8 @@
 package com.banquemisr.moneytransactionservice.dto.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum CurrencyRate {
     USD_TO_EGP(48.63),  // US Dollar to Egyptian Pound
     EUR_TO_EGP(53.72),  // Euro to Egyptian Pound
@@ -26,5 +29,14 @@ public enum CurrencyRate {
 
     CurrencyRate(double rate) {
         this.rate = rate;
+    }
+
+    public static CurrencyRate fromCurrencyCode(String code) {
+        try {
+            return CurrencyRate.valueOf(code + "_TO_EGP");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Currency not found: " + code);
+            return null;
+        }
     }
 }
