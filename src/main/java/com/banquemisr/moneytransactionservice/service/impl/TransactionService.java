@@ -30,26 +30,24 @@ public class TransactionService implements ITransaction {
                 .fromAccount(fromAccount)
                 .toAccount(toAccount)
                 .amount(amount)
-                .description("pending")
                 .build();
     }
 
     @Override
-    public UserTransactionDTO addToTransactionHistory(Transaction transaction, User user) {
-        transaction.setDescription("done");
+    public UserTransactionDTO addToTransactionHistory(Account fromAccount, Account toAccount, double amount, User user, String status) {
+        Transaction transaction = createTransaction(fromAccount, toAccount, amount);
         UserTransactions userTransaction = UserTransactions
                 .builder()
                 .user(user)
                 .transaction(this.transactionRepository.save(transaction))
-                .status("Done")
+                .status(status)
                 .build();
         return this.userTransactionsRepository.save(userTransaction).toDTO();
     }
 
     @Override
     public List<TransactionDTO> getUserTransactionHistory(UserIdDTO userId) {
-        List<UserTransactions> userTransactions = this.userTransactionsRepository.findByUser_CustomerId(userId.getUserId());
-        return userTransactions
+        return this.userTransactionsRepository.findByUser_CustomerId(userId.getUserId())
                 .stream()
                 .map(userTransaction -> userTransaction.getTransaction().toDTO())
                 .collect(Collectors.toList());
