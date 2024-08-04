@@ -5,10 +5,7 @@ import com.banquemisr.moneytransactionservice.dto.enums.Country;
 import com.banquemisr.moneytransactionservice.dto.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
