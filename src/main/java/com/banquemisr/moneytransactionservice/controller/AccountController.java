@@ -2,7 +2,9 @@ package com.banquemisr.moneytransactionservice.controller;
 
 import com.banquemisr.moneytransactionservice.dto.*;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
-import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyException;
+import com.banquemisr.moneytransactionservice.exception.custom.AccountNotActiveException;
+import com.banquemisr.moneytransactionservice.exception.custom.AccountNotFoundException;
+import com.banquemisr.moneytransactionservice.exception.custom.NotEnoughMoneyInAccountException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.service.impl.AccountService;import com.banquemisr.moneytransactionservice.utils.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +46,7 @@ public class AccountController {
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @PostMapping("/transfer")
-    public ResponseEntity<UserTransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO) throws UserNotFoundException , NotEnoughMoneyException {
+    public ResponseEntity<UserTransactionDTO> transferMoney(@RequestBody TransactionDTO transactionDTO) throws UserNotFoundException, NotEnoughMoneyInAccountException, AccountNotFoundException, AccountNotActiveException {
         return new ResponseEntity<>(
                 this.accountService.transferMoney(transactionDTO),
                 HttpStatus.CREATED
