@@ -4,7 +4,7 @@ import com.banquemisr.moneytransactionservice.dto.AddFavoriteRecipientDTO;
 import com.banquemisr.moneytransactionservice.dto.ViewFavoriteRecipientDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.*;
 import com.banquemisr.moneytransactionservice.model.FavoriteRecipients;
-import com.banquemisr.moneytransactionservice.model.User;
+import com.banquemisr.moneytransactionservice.model.Users;
 import com.banquemisr.moneytransactionservice.repository.AccountRepository;
 import com.banquemisr.moneytransactionservice.repository.FavoriteRecipientsRepository;
 import com.banquemisr.moneytransactionservice.service.IFavoriteRecipients;
@@ -34,7 +34,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
 
     @Override
     public ViewFavoriteRecipientDTO addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws UserNotFoundException, AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
-        User user = this.userService.getUserIfExistsByEmail(email);
+        Users user = this.userService.getUserIfExistsByEmail(email);
         checkIfAccountExistsAndNotAlreadyInFavorites(favoriteRecipientDTO, email);
 
         FavoriteRecipients recipient = FavoriteRecipients

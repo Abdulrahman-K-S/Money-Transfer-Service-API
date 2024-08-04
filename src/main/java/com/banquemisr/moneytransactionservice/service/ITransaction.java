@@ -3,9 +3,9 @@ package com.banquemisr.moneytransactionservice.service;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
-import com.banquemisr.moneytransactionservice.model.Account;
-import com.banquemisr.moneytransactionservice.model.Transaction;
-import com.banquemisr.moneytransactionservice.model.User;
+import com.banquemisr.moneytransactionservice.model.Accounts;
+import com.banquemisr.moneytransactionservice.model.Transactions;
+import com.banquemisr.moneytransactionservice.model.Users;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public interface ITransaction {
      * @param fromAccount The account the money is being transferred from
      * @param toAccount The account the money is being transferred to
      * @param amount The amount being transferred
-     * @return The transaction object @{@link Transaction}
+     * @return The transaction object @{@link Transactions}
      * */
-    Transaction createTransaction(Account fromAccount, Account toAccount, double amount);
+    Transactions createTransaction(Accounts fromAccount, Accounts toAccount, double amount);
 
     /**
      * Add a transaction to the user's transaction history
@@ -31,7 +31,7 @@ public interface ITransaction {
      * @param status       The status of the transaction
      * @return user transaction table details @{@link UserTransactionDTO}
      * */
-    UserTransactionDTO addToTransactionHistory(Account fromAccount, Account toAccount, double amount, User user, String status);
+    UserTransactionDTO addToTransactionHistory(Accounts fromAccount, Accounts toAccount, double amount, Users user, String status);
 
     /**
      * Retrieves the user transaction history

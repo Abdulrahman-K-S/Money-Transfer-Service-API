@@ -4,7 +4,7 @@ import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.*;
-import com.banquemisr.moneytransactionservice.model.Account;
+import com.banquemisr.moneytransactionservice.model.Accounts;
 import com.banquemisr.moneytransactionservice.repository.AccountRepository;
 import com.banquemisr.moneytransactionservice.service.IAccount;
 import com.banquemisr.moneytransactionservice.service.ITransaction;
@@ -27,7 +27,7 @@ public class AccountService implements IAccount {
         if (Boolean.TRUE.equals(this.accountRepository.existsByAccountNumber(accountDTO.getAccountNumber()))) {
             throw new AccountAlreadyExistsException(String.format("Account number %s already exists", accountDTO.getAccountNumber()));
         }
-        Account account = Account
+        Accounts account = Accounts
                 .builder()
                 .accountName(accountDTO.getAccountName())
                 .accountNumber(accountDTO.getAccountNumber())
@@ -48,14 +48,14 @@ public class AccountService implements IAccount {
         if (Boolean.FALSE.equals(accountRepository.existsAccountByUser_EmailAndAccountNumber(email, accountNumber))) {
             throw new AccountAccessNotAllowedException(String.format("User with email %s isn't the account owner", email));
         }
-        Account account = this.accountRepository
+        Accounts account = this.accountRepository
                 .findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account with account number %s not found", accountNumber)));
         return account.getBalance();
     }
 
     @Override
-    public void checkIfFromAndToAccountAreExpired(Account fromAccount, Account toAccount) throws AccountExpiredException {
+    public void checkIfFromAndToAccountAreExpired(Accounts fromAccount, Accounts toAccount) throws AccountExpiredException {
         YearMonth currentYearMonth = YearMonth.now();
 
         YearMonth fromAccountYearMonth = YearMonth.of(Integer.parseInt(fromAccount.getExpiryYear()), Integer.parseInt(fromAccount.getExpiryMonth()));
@@ -70,7 +70,7 @@ public class AccountService implements IAccount {
     }
 
     @Override
-    public void checkIfFromAndToAccountAreActive(Account fromAccount, Account toAccount) throws AccountExpiredException {
+    public void checkIfFromAndToAccountAreActive(Accounts fromAccount, Accounts toAccount) throws AccountExpiredException {
         if (Boolean.FALSE.equals(fromAccount.getIsActive())) {
             throw new AccountNotActiveException(String.format("Account %s is not active ", fromAccount.getAccountNumber()));
         }
@@ -80,7 +80,7 @@ public class AccountService implements IAccount {
     }
 
     @Override
-    public void checkIfFromAccountHasEnoughMoney(Account fromAccount, Account toAccount, double amount) throws NotEnoughMoneyInAccountException {
+    public void checkIfFromAccountHasEnoughMoney(Accounts fromAccount, Accounts toAccount, double amount) throws NotEnoughMoneyInAccountException {
         if (fromAccount.getBalance() < amount) {
             // Save failed transaction for web/application view
             this.transactionService.addToTransactionHistory(fromAccount, toAccount, amount, fromAccount.getUser(), "fail");
@@ -89,7 +89,7 @@ public class AccountService implements IAccount {
     }
 
     @Override
-    public UserTransactionDTO performTransferTransaction(Account fromAccount, Account toAccount, double amount) {
+    public UserTransactionDTO performTransferTransaction(Accounts fromAccount, Accounts toAccount, double amount) {
         fromAccount.setBalance(fromAccount.getBalance() - amount);
         toAccount.setBalance(toAccount.getBalance() + amount);
         this.accountRepository.save(fromAccount);
@@ -100,9 +100,9 @@ public class AccountService implements IAccount {
 
     @Override
     public UserTransactionDTO transferMoney(TransactionDTO transactionDTO) throws UserNotFoundException , NotEnoughMoneyInAccountException {
-        Account fromAccount = this.accountRepository.findByAccountNumber(transactionDTO.getFromAccountNumber())
+        Accounts fromAccount = this.accountRepository.findByAccountNumber(transactionDTO.getFromAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account number %s not found", transactionDTO.getFromAccountNumber())));
-        Account toAccount = this.accountRepository.findByAccountNumber(transactionDTO.getToAccountNumber())
+        Accounts toAccount = this.accountRepository.findByAccountNumber(transactionDTO.getToAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account number %s not found", transactionDTO.getToAccountNumber())));
 
         checkIfFromAndToAccountAreExpired(fromAccount, toAccount);

@@ -3,9 +3,9 @@ package com.banquemisr.moneytransactionservice.service.impl;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserIdDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
-import com.banquemisr.moneytransactionservice.model.Account;
-import com.banquemisr.moneytransactionservice.model.Transaction;
-import com.banquemisr.moneytransactionservice.model.User;
+import com.banquemisr.moneytransactionservice.model.Accounts;
+import com.banquemisr.moneytransactionservice.model.Transactions;
+import com.banquemisr.moneytransactionservice.model.Users;
 import com.banquemisr.moneytransactionservice.model.UserTransactions;
 import com.banquemisr.moneytransactionservice.repository.TransactionRepository;
 import com.banquemisr.moneytransactionservice.repository.UserTransactionsRepository;
@@ -24,8 +24,8 @@ public class TransactionService implements ITransaction {
     private final UserTransactionsRepository userTransactionsRepository;
 
     @Override
-    public Transaction createTransaction(Account fromAccount, Account toAccount, double amount) {
-        return Transaction
+    public Transactions createTransaction(Accounts fromAccount, Accounts toAccount, double amount) {
+        return Transactions
                 .builder()
                 .fromAccount(fromAccount)
                 .toAccount(toAccount)
@@ -34,8 +34,8 @@ public class TransactionService implements ITransaction {
     }
 
     @Override
-    public UserTransactionDTO addToTransactionHistory(Account fromAccount, Account toAccount, double amount, User user, String status) {
-        Transaction transaction = createTransaction(fromAccount, toAccount, amount);
+    public UserTransactionDTO addToTransactionHistory(Accounts fromAccount, Accounts toAccount, double amount, Users user, String status) {
+        Transactions transaction = createTransaction(fromAccount, toAccount, amount);
         UserTransactions userTransaction = UserTransactions
                 .builder()
                 .user(user)

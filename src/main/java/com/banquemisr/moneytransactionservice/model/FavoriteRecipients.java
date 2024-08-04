@@ -18,7 +18,7 @@ public class FavoriteRecipients {
     private Long favoriteRecipientId;
 
     @ManyToOne
-    private User user;
+    private Users user;
 
     @Column(nullable = false)
     private String recipientName;

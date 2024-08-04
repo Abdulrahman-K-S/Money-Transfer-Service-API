@@ -1,6 +1,6 @@
 package com.banquemisr.moneytransactionservice.repository;
 
-import com.banquemisr.moneytransactionservice.model.User;
+import com.banquemisr.moneytransactionservice.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,11 +9,11 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
     // USER
-    Optional<User> findByUsername(String username);
-    Optional<User> findByEmail(String email);
+    Optional<Users> findByUsername(String username);
+    Optional<Users> findByEmail(String email);
 
     // BOOLEAN
     Boolean existsByUsername(String username);

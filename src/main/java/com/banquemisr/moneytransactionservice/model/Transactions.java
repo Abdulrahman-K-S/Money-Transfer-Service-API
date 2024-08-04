@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transaction {
+public class Transactions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,10 @@ public class Transaction {
     private double amount;
 
     @ManyToOne
-    private Account fromAccount;
+    private Accounts fromAccount;
 
     @ManyToOne
-    private Account toAccount;
+    private Accounts toAccount;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
