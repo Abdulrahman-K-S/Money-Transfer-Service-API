@@ -27,19 +27,25 @@ public class AccountController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/create_account")
-    public AccountDTO createAccount(@RequestHeader("Authorization") String authorizationHeader, @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> createAccount(@RequestHeader("Authorization") String authorizationHeader, @RequestBody AccountDTO accountDTO) {
         String email = jwtUtils.getEmailFromHeader(authorizationHeader);
-        return this.accountService.createAccount(accountDTO, email);
+        return new ResponseEntity<>(
+                this.accountService.createAccount(accountDTO, email),
+                HttpStatus.CREATED
+        );
     }
 
     @Operation(summary = "Get user Account Balance")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = UserDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @GetMapping("/balance")
-    public double getUserAccountBalance(@RequestHeader(value = "Authorization") String authorizationHeader, @RequestBody AccountNumberDTO accountDTO) throws UserNotFoundException {
+    public ResponseEntity<Double> getUserAccountBalance(@RequestHeader(value = "Authorization") String authorizationHeader, @RequestBody AccountNumberDTO accountDTO) throws UserNotFoundException {
         String token = jwtUtils.extractTokenFromHeader(authorizationHeader);
         String email = jwtUtils.getUserNameFromJwtToken(token);
-        return accountService.getUserAccountBalance(accountDTO.getAccountNumber(), email);
+        return new ResponseEntity<>(
+                accountService.getUserAccountBalance(accountDTO.getAccountNumber(), email),
+                HttpStatus.OK
+        );
     }
 
     @Operation(summary = "Transfer money to another account and create a transaction ticket")

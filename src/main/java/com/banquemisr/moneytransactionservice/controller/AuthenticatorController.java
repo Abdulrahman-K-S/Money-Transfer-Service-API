@@ -30,16 +30,22 @@ public class AuthenticatorController {
     @ApiResponse(responseCode = "201", description = "User registered successfully", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UserDTO.class))})
     @ApiResponse(responseCode = "409", description = "User email/username already exists", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))})
     @PostMapping("/register")
-    public UserDTO register(@RequestBody CreateUserDTO createUserDTO) throws UserAlreadyExistsException {
-        return userService.register(createUserDTO);
+    public ResponseEntity<UserDTO> register(@RequestBody CreateUserDTO createUserDTO) throws UserAlreadyExistsException {
+        return new ResponseEntity<>(
+                userService.register(createUserDTO),
+                HttpStatus.CREATED
+        );
     }
 
     @Operation(summary = "Login user into system and generate JWT token")
     @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = LoginResponseDTO.class), mediaType = "application/json")})
     @ApiResponse(responseCode = "401", content = {@Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")})
     @PostMapping("/login")
-    public LoginResponseDTO longin(@RequestBody LoginRequestDTO loginRequestDTO)throws UserNotFoundException {
-        return userService.login(loginRequestDTO);
+    public ResponseEntity<LoginResponseDTO> longin(@RequestBody LoginRequestDTO loginRequestDTO)throws UserNotFoundException {
+        return new ResponseEntity<>(
+                userService.login(loginRequestDTO),
+                HttpStatus.CREATED
+        );
     }
 
     @Operation(summary = "Logout the user from the system")
