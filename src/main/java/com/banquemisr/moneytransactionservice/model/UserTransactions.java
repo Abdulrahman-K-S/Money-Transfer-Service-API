@@ -17,10 +17,10 @@ public class UserTransactions {
     private long id;
 
     @ManyToOne
-    private Users user;
+    private User user;
 
     @ManyToOne
-    private Transactions transaction;
+    private Transaction transaction;
 
     private String status = "pending"; // Create an enum for status
 

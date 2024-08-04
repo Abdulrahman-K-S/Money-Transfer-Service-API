@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Accounts {
+public class Account {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
     private Long accountId;
@@ -58,7 +58,7 @@ public class Accounts {
 
     @JsonIgnore
     @ManyToOne
-    private Users user;
+    private User user;
 
     public AccountDTO ToDTO() {
         return AccountDTO.builder()

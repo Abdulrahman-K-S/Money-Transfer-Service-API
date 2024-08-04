@@ -4,7 +4,7 @@ import com.banquemisr.moneytransactionservice.dto.AccountDTO;
 import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.dto.UserTransactionDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.*;
-import com.banquemisr.moneytransactionservice.model.Accounts;
+import com.banquemisr.moneytransactionservice.model.Account;
 
 public interface IAccount {
 
@@ -34,7 +34,7 @@ public interface IAccount {
       * @param toAccount The account the transfer is being added to
       * @throws AccountExpiredException If either accounts are expired
       * */
-     void checkIfFromAndToAccountAreExpired(Accounts fromAccount, Accounts toAccount) throws AccountExpiredException;
+     void checkIfFromAndToAccountAreExpired(Account fromAccount, Account toAccount) throws AccountExpiredException;
 
      /**
       * Checks whether the fromAccount or toAccount are active
@@ -43,7 +43,7 @@ public interface IAccount {
       * @param toAccount The account the transfer is being added to
       * @throws AccountNotActiveException If either accounts are not active
       * */
-     void checkIfFromAndToAccountAreActive(Accounts fromAccount, Accounts toAccount) throws AccountNotActiveException;
+     void checkIfFromAndToAccountAreActive(Account fromAccount, Account toAccount) throws AccountNotActiveException;
 
      /**
       * Checks whether the fromAccount has enough money for transfer, and adds
@@ -54,7 +54,7 @@ public interface IAccount {
       * @param amount The amount being transferred
       * @throws NotEnoughMoneyInAccountException If there's not enough money in the fromAccount
       * */
-     void checkIfFromAccountHasEnoughMoney(Accounts fromAccount, Accounts toAccount, double amount) throws NotEnoughMoneyInAccountException;
+     void checkIfFromAccountHasEnoughMoney(Account fromAccount, Account toAccount, double amount) throws NotEnoughMoneyInAccountException;
 
     /**
      * Performs the transaction and adds a successful transaction to transaction history
@@ -63,7 +63,7 @@ public interface IAccount {
      * @param toAccount The account the transfer is being added to
      * @param amount The amount being transferred
      * */
-     UserTransactionDTO performTransferTransaction(Accounts fromAccount, Accounts toAccount, double amount);
+     UserTransactionDTO performTransferTransaction(Account fromAccount, Account toAccount, double amount);
 
     /**
      * Transfer money from an account to the other

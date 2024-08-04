@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
@@ -34,7 +34,7 @@ public class Users {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Accounts> account;
+    private List<Account> account;
 
     private Country country;
     private String phone;

@@ -6,7 +6,7 @@ import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
 import com.banquemisr.moneytransactionservice.dto.UserDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.BlackListedTokens;
-import com.banquemisr.moneytransactionservice.model.Users;
+import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.BlacklistedTokenRepository;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IAuthenticator;
@@ -42,8 +42,8 @@ public class AuthenticatorService implements IAuthenticator {
     }
 
     @Override
-    public Users extractUserDetails(CreateUserDTO createUserDTO) {
-        return Users
+    public User extractUserDetails(CreateUserDTO createUserDTO) {
+        return User
                 .builder()
                 .username(createUserDTO.getUsername())
                 .password(this.passwordEncoder.encode(createUserDTO.getPassword()))
@@ -60,7 +60,7 @@ public class AuthenticatorService implements IAuthenticator {
     public UserDTO register(CreateUserDTO createUserDTO) {
         this.checkIfUsernameOrEmailExists(createUserDTO.getUsername(), createUserDTO.getEmail());
 
-        Users user = this.extractUserDetails(createUserDTO);
+        User user = this.extractUserDetails(createUserDTO);
 
         return this.userRepository.save(user).toUserDTO();
     }
