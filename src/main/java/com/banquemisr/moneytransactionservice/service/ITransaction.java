@@ -36,8 +36,8 @@ public interface ITransaction {
     /**
      * Retrieves the user transaction history
      *
-     * @param userId The user's ID
+     * @param email The user's email
      * @return List of the transactions done by the user @{@link TransactionDTO}
      * */
-    List<TransactionDTO> getUserTransactionHistory(UserIdDTO userId);
+    List<TransactionDTO> getUserTransactionHistory(String email);
 }
