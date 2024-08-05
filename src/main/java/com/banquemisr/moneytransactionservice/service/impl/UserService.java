@@ -56,7 +56,7 @@ public class UserService implements IUser {
                 .build());
         return getRateFromEGP(CurrencyRateDTO.builder()
                 .currency(currencyToFromRateDTO.getToCurrency())
-                .amount(currencyToFromRateDTO.getAmount())
+                .amount(fromAmount)
                 .build());
     }
 }
