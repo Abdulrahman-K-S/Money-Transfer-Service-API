@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 @Transactional
 public interface UserTransactionsRepository extends JpaRepository<UserTransactions, Long> {
-    List<UserTransactions> findByUser_CustomerId(Long userId);
+    List<UserTransactions> findByUser_Email(String email);
 }
