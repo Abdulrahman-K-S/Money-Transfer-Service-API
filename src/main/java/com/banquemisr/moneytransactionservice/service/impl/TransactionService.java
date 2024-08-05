@@ -46,8 +46,8 @@ public class TransactionService implements ITransaction {
     }
 
     @Override
-    public List<TransactionDTO> getUserTransactionHistory(UserIdDTO userId) {
-        return this.userTransactionsRepository.findByUser_CustomerId(userId.getUserId())
+    public List<TransactionDTO> getUserTransactionHistory(String email) {
+        return this.userTransactionsRepository.findByUser_Email(email)
                 .stream()
                 .map(userTransaction -> userTransaction.getTransaction().toDTO())
                 .collect(Collectors.toList());
