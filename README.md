@@ -90,6 +90,10 @@ Here are some of the main API endpoints exposed by the application:
 * `Get /api/favorites` - Retrieve all the favorite recipients
 * `Delete /api//favorites/{id}` - Deletes a recipient from the favorite's list
 * `Get /api/favorites` - Retrieve all the favorite recipients
+* `Get /api/ratetoEGP` - Change from any currency to EGP
+* `Get /api/ratefromEGP` - Change from EGP to any currency
+* `Get /api/rate` - Change from any currency to any currency
+
 
 
 For a complete list of endpoints and their usage, refer to the OpenAPI documentation available at `/swagger-ui.html`.
