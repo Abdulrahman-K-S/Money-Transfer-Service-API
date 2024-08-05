@@ -1,42 +1,46 @@
 package com.banquemisr.moneytransactionservice.controller;
 
-import com.banquemisr.moneytransactionservice.dto.enums.Country;
-import com.banquemisr.moneytransactionservice.dto.enums.CurrencyRate;
+import com.banquemisr.moneytransactionservice.dto.CurrencyRateDTO;
+import com.banquemisr.moneytransactionservice.dto.CurrencyToFromRateDTO;
+import com.banquemisr.moneytransactionservice.service.IUser;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Getter
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class UserController {
-    public Country country;
 
-    public double getRateToEGP(String currency, double amount) {
+    private final IUser userService;
 
-        CurrencyRate currencyRate = CurrencyRate.fromCurrencyCode(currency);
-        assert currencyRate != null;
-        double rate = currencyRate.getRate();
-            return rate * amount;
-
+    @GetMapping("/ratetoEGP")
+    public ResponseEntity<Double> getRateToEGP(@RequestBody CurrencyRateDTO currencyRateDTO) {
+        return new ResponseEntity<>(
+                this.userService.getRateToEGP(currencyRateDTO),
+                HttpStatus.OK
+        );
     }
-    public double getRateFromEGP(String currency, double amount) {
 
-        CurrencyRate currencyRate = CurrencyRate.fromCurrencyCode(currency);
-        assert currencyRate != null;
-        double rate = currencyRate.getRate();
-        return amount / rate;
-
+    @GetMapping("/ratefromEGP")
+    public ResponseEntity<Double> getRateFromEGP(@RequestBody CurrencyRateDTO currencyRateDTO) {
+        return new ResponseEntity<>(
+                this.userService.getRateFromEGP(currencyRateDTO),
+                HttpStatus.OK
+        );
     }
-    public double getRate(String fromCurrency, String toCurrency , double amount) {
 
-//        CurrencyRate fromCurrencyRate = CurrencyRate.fromCurrencyCode(fromCurrency);
-//        CurrencyRate toCurrencyRate = CurrencyRate.fromCurrencyCode(toCurrency);
-//        assert fromCurrencyRate != null;
-//        assert toCurrencyRate != null;
-//        double fromRate = fromCurrencyRate.getRate();
-//        double toRate = toCurrencyRate.getRate();
-//        double temp = fromRate * amount;
-//        return temp / toRate;
-        double from = getRateToEGP(fromCurrency,amount);
-        return getRateFromEGP(toCurrency,from);
+    @GetMapping("/rate")
+    public ResponseEntity<Double> getRate(@RequestBody CurrencyToFromRateDTO currencyToFromRateDTO) {
+        return new ResponseEntity<>(
+                this.userService.getRate(currencyToFromRateDTO),
+                HttpStatus.OK
+        );
     }
 }

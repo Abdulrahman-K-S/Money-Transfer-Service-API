@@ -1,5 +1,7 @@
 package com.banquemisr.moneytransactionservice.service;
 
+import com.banquemisr.moneytransactionservice.dto.CurrencyRateDTO;
+import com.banquemisr.moneytransactionservice.dto.CurrencyToFromRateDTO;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
 import com.banquemisr.moneytransactionservice.model.User;
 
@@ -22,4 +24,28 @@ public interface IUser {
      * @throws UserNotFoundException If user doesn't exist with passed email
      * */
     User getUserIfExistsByEmail(String email) throws UserNotFoundException;
+
+    /**
+     * Gets the currency equivalent rate in EGP
+     *
+     * @param currencyRateDTO The currency & amount
+     * @return The equivalent in EGP
+     * */
+    Double getRateToEGP(CurrencyRateDTO currencyRateDTO);
+
+    /**
+     * Gets the currency equivalent rate from EGP
+     *
+     * @param currencyRateDTO The currency & amount
+     * @return The equivalent from EGP
+     * */
+    Double getRateFromEGP(CurrencyRateDTO currencyRateDTO);
+
+    /**
+     * Gets the currency equivalent rate
+     *
+     * @param currencyToFromRateDTO The fromCurrency and toCurrency & amount
+     * @return The equivalent rate
+     * */
+    Double getRate(CurrencyToFromRateDTO currencyToFromRateDTO);
 }
