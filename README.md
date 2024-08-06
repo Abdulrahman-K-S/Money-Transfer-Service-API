@@ -86,6 +86,13 @@ Money-Transaction-Service is a comprehensive application designed to facilitate 
     mvn spring-boot:run
     ```
 
+### Or you can run the docker-compose file which will setup everything.
+
+```cmd
+   docker compose build
+   docker compose up
+```
+
 ## Configuration
 
 The main configuration settings are in the `application.properties` file. Ensure you set the correct values for database connection, H2 and JWT secret in their respective prod property files.
@@ -94,9 +101,9 @@ The main configuration settings are in the `application.properties` file. Ensure
 
 Once the application is up and running, you can use a tool like Postman to interact with the API.
 
-## Deployed Site
+## Deployed Site (Site is Up)
 
-The API is currently deployed onto this url => http://18.156.119.108. To run APIs off of this url you'll need to add the por `8080` which is the default springboot application port. You can check out the Swagger Documentation here http://18.156.119.108:8080/swagger-ui/index.html#/. (Site is Up)
+The API is currently deployed onto this url => http://18.156.119.108. To run APIs off of this url you'll need to add the por `8080` which is the default springboot application port. You can check out the Swagger Documentation here http://18.156.119.108:8080/swagger-ui/index.html#/. Which is deployed on a older version of the API so the frontend team can test on it. For full API capabilities we recommend you to clone it and run it locally
 
 ## API Endpoints
 
@@ -105,6 +112,7 @@ Here are some of the main API endpoints exposed by the application:
 * `POST /api/register` - Register a new user
 * `POST /api/login` - Authenticate a user and get a JWT token
 * `Post /api/logout` - Logout the user from the system
+* `POST /api/refreshToken` - Refreshes the token if it hasn't expired yet
 * `Get /api/balance` - Get user Account Balance
 * `POST /api/transfer` - Transfer money to another account and create a transaction ticket
 * `Get /api/transactions` - Get user Transactions history
