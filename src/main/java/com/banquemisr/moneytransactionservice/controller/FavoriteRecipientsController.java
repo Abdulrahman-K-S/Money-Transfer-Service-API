@@ -24,6 +24,7 @@ import java.util.List;
         name = "Favorite Recipient Controller",
         description = "The controller that's responsible for the recipient favorites"
 )
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
