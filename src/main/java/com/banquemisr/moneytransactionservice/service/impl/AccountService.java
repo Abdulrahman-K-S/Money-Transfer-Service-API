@@ -11,6 +11,7 @@ import com.banquemisr.moneytransactionservice.service.ITransaction;
 import com.banquemisr.moneytransactionservice.service.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.YearMonth;
@@ -23,6 +24,7 @@ public class AccountService implements IAccount {
     private final IUser userService;
 
     @Override
+    @Transactional
     public AccountDTO createAccount(AccountDTO accountDTO, String email) {
         if (Boolean.TRUE.equals(this.accountRepository.existsByAccountNumber(accountDTO.getAccountNumber()))) {
             throw new AccountAlreadyExistsException(String.format("Account number %s already exists", accountDTO.getAccountNumber()));
@@ -44,6 +46,7 @@ public class AccountService implements IAccount {
     }
 
     @Override
+    @Transactional
     public double getUserAccountBalance(String accountNumber, String email) throws AccountNotFoundException, AccountAccessNotAllowedException {
         if (Boolean.FALSE.equals(accountRepository.existsAccountByUser_EmailAndAccountNumber(email, accountNumber))) {
             throw new AccountAccessNotAllowedException(String.format("User with email %s isn't the account owner", email));
@@ -58,13 +61,13 @@ public class AccountService implements IAccount {
     public void checkIfFromAndToAccountAreExpired(Account fromAccount, Account toAccount) throws AccountExpiredException {
         YearMonth currentYearMonth = YearMonth.now();
 
-        YearMonth fromAccountYearMonth = YearMonth.of(Integer.parseInt(fromAccount.getExpiryYear()), Integer.parseInt(fromAccount.getExpiryMonth()));
-        if (fromAccountYearMonth.isAfter(currentYearMonth)) {
+        YearMonth fromAccountYearMonth = YearMonth.of(Integer.parseInt("20" + fromAccount.getExpiryYear()), Integer.parseInt(fromAccount.getExpiryMonth()));
+        if (fromAccountYearMonth.isBefore(currentYearMonth)) {
             throw new AccountExpiredException(String.format("Account %s is expired", fromAccount.getAccountNumber()));
         }
 
-        YearMonth toAccountYearMonth = YearMonth.of(Integer.parseInt(toAccount.getExpiryYear()), Integer.parseInt(toAccount.getExpiryMonth()));
-        if (toAccountYearMonth.isAfter(currentYearMonth)) {
+        YearMonth toAccountYearMonth = YearMonth.of(Integer.parseInt("20" + toAccount.getExpiryYear()), Integer.parseInt(toAccount.getExpiryMonth()));
+        if (toAccountYearMonth.isBefore(currentYearMonth)) {
             throw new AccountExpiredException(String.format("Account %s is expired", toAccount.getAccountNumber()));
         }
     }
@@ -99,16 +102,17 @@ public class AccountService implements IAccount {
     }
 
     @Override
+    @Transactional
     public UserTransactionDTO transferMoney(TransactionDTO transactionDTO) throws UserNotFoundException , NotEnoughMoneyInAccountException {
         Account fromAccount = this.accountRepository.findByAccountNumber(transactionDTO.getFromAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account number %s not found", transactionDTO.getFromAccountNumber())));
         Account toAccount = this.accountRepository.findByAccountNumber(transactionDTO.getToAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account number %s not found", transactionDTO.getToAccountNumber())));
 
-        checkIfFromAndToAccountAreExpired(fromAccount, toAccount);
-        checkIfFromAndToAccountAreActive(fromAccount, toAccount);
-        checkIfFromAccountHasEnoughMoney(fromAccount, toAccount, transactionDTO.getAmount());
+        this.checkIfFromAndToAccountAreExpired(fromAccount, toAccount);
+        this.checkIfFromAndToAccountAreActive(fromAccount, toAccount);
+        this.checkIfFromAccountHasEnoughMoney(fromAccount, toAccount, transactionDTO.getAmount());
 
-        return performTransferTransaction(fromAccount, toAccount, transactionDTO.getAmount());
+        return this.performTransferTransaction(fromAccount, toAccount, transactionDTO.getAmount());
     }
 }

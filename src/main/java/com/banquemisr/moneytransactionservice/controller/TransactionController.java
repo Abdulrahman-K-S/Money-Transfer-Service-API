@@ -4,6 +4,8 @@ import com.banquemisr.moneytransactionservice.dto.TransactionDTO;
 import com.banquemisr.moneytransactionservice.service.ITransaction;
 import com.banquemisr.moneytransactionservice.utils.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class TransactionController {
 
     @GetMapping("transactions")
     @Operation(summary = "Retrieve the transaction history for the user")
-    @ApiResponse(responseCode = "200", description = "Transaction history retrieved")
+    @ApiResponse(responseCode = "200", description = "Transaction history retrieved", content = {@Content(schema = @Schema(implementation = TransactionDTO.class), mediaType = "application/json")})
     public ResponseEntity<List<TransactionDTO>> getTransactions(@RequestHeader("Authorization") String authorizationHeader) {
         String email = jwtUtils.getEmailFromHeader(authorizationHeader);
         return new ResponseEntity<>(

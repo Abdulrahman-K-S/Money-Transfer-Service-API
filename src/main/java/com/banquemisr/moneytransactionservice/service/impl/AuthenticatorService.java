@@ -66,13 +66,14 @@ public class AuthenticatorService implements IAuthenticator {
     }
 
     @Override
+    @Transactional
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = this.jwtUtils.generateJwtToken(authentication);
 
         return LoginResponseDTO.builder()
                 .token(jwt)
@@ -83,6 +84,7 @@ public class AuthenticatorService implements IAuthenticator {
     }
 
     @Override
+    @Transactional
     public void logout(String token) {
         BlackListedTokens blackListedToken = BlackListedTokens
                 .builder()
