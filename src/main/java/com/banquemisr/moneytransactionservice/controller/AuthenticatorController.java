@@ -1,9 +1,6 @@
 package com.banquemisr.moneytransactionservice.controller;
 
-import com.banquemisr.moneytransactionservice.dto.CreateUserDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
-import com.banquemisr.moneytransactionservice.dto.UserDTO;
+import com.banquemisr.moneytransactionservice.dto.*;
 import com.banquemisr.moneytransactionservice.exception.ErrorResponse;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserNotFoundException;
@@ -45,6 +42,14 @@ public class AuthenticatorController {
         return new ResponseEntity<>(
                 userService.login(loginRequestDTO),
                 HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/refreshToken")
+    public ResponseEntity<LoginResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
+        return new ResponseEntity<>(
+                userService.refreshToken(refreshTokenRequestDTO),
+                HttpStatus.OK
         );
     }
 

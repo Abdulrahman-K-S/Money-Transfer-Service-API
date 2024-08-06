@@ -1,15 +1,15 @@
 package com.banquemisr.moneytransactionservice.service.impl;
 
-import com.banquemisr.moneytransactionservice.dto.CreateUserDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
-import com.banquemisr.moneytransactionservice.dto.UserDTO;
+import com.banquemisr.moneytransactionservice.dto.*;
+import com.banquemisr.moneytransactionservice.exception.custom.RefreshTokenNotFoundException;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.BlackListedTokens;
+import com.banquemisr.moneytransactionservice.model.RefreshToken;
 import com.banquemisr.moneytransactionservice.model.User;
 import com.banquemisr.moneytransactionservice.repository.BlacklistedTokenRepository;
 import com.banquemisr.moneytransactionservice.repository.UserRepository;
 import com.banquemisr.moneytransactionservice.service.IAuthenticator;
+import com.banquemisr.moneytransactionservice.service.IRefreshToken;
 import com.banquemisr.moneytransactionservice.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,7 @@ public class AuthenticatorService implements IAuthenticator {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final IRefreshToken refreshTokenService;
 
     @Override
     public void checkIfUsernameOrEmailExists(String username, String email) {
@@ -73,10 +74,12 @@ public class AuthenticatorService implements IAuthenticator {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginRequestDTO.getEmail());
         String jwt = this.jwtUtils.generateJwtToken(authentication);
 
         return LoginResponseDTO.builder()
                 .token(jwt)
+                .refreshToken(refreshToken.getToken())
                 .message("Login Successful")
                 .status(HttpStatus.ACCEPTED)
                 .tokenType("Bearer")
@@ -91,5 +94,23 @@ public class AuthenticatorService implements IAuthenticator {
                 .token(token)
                 .build();
         this.blacklistedTokenRepository.save(blackListedToken);
+    }
+
+    @Override
+    @Transactional
+    public LoginResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO) {
+        return refreshTokenService.findByToken(refreshTokenRequestDTO.getRefreshToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String accessToken = jwtUtils.generateToken(user.getEmail());
+                    return LoginResponseDTO.builder()
+                            .token(accessToken)
+                            .refreshToken(refreshTokenRequestDTO.getRefreshToken())
+                            .message("Token refreshed successfully")
+                            .status(HttpStatus.ACCEPTED)
+                            .tokenType("Bearer")
+                            .build();
+                }).orElseThrow(() -> new RefreshTokenNotFoundException("Refresh Token is not in DB..!!"));
     }
 }
