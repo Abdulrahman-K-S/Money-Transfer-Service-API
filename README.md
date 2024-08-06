@@ -103,7 +103,7 @@ Once the application is up and running, you can use a tool like Postman to inter
 
 ## Deployed Site (Site is Up)
 
-The API is currently deployed onto this url => http://18.156.119.108. To run APIs off of this url you'll need to add the por `8080` which is the default springboot application port. You can check out the Swagger Documentation here http://18.156.119.108:8080/swagger-ui/index.html#/. Which is deployed on a older version of the API so the frontend team can test on it. For full API capabilities we recommend you to clone it and run it locally
+The API is currently deployed onto this url => http://18.156.119.108. To run APIs off of this url you'll need to add the por `8080` which is the default springboot application port. You can check out the Swagger Documentation here http://18.156.119.108:8080/swagger-ui/index.html#/. Which is deployed on an older version of the API so the frontend team can test on it. For full API capabilities we recommend you to clone it and run it locally
 
 ## API Endpoints
 
