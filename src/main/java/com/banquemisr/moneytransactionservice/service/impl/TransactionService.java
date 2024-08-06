@@ -35,7 +35,7 @@ public class TransactionService implements ITransaction {
 
     @Override
     public UserTransactionDTO addToTransactionHistory(Account fromAccount, Account toAccount, double amount, User user, String status) {
-        Transaction transaction = createTransaction(fromAccount, toAccount, amount);
+        Transaction transaction = this.createTransaction(fromAccount, toAccount, amount);
         UserTransactions userTransaction = UserTransactions
                 .builder()
                 .user(user)

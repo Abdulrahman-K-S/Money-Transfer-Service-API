@@ -109,10 +109,10 @@ public class AccountService implements IAccount {
         Account toAccount = this.accountRepository.findByAccountNumber(transactionDTO.getToAccountNumber())
                 .orElseThrow(() -> new AccountNotFoundException(String.format("Account number %s not found", transactionDTO.getToAccountNumber())));
 
-        checkIfFromAndToAccountAreExpired(fromAccount, toAccount);
-        checkIfFromAndToAccountAreActive(fromAccount, toAccount);
-        checkIfFromAccountHasEnoughMoney(fromAccount, toAccount, transactionDTO.getAmount());
+        this.checkIfFromAndToAccountAreExpired(fromAccount, toAccount);
+        this.checkIfFromAndToAccountAreActive(fromAccount, toAccount);
+        this.checkIfFromAccountHasEnoughMoney(fromAccount, toAccount, transactionDTO.getAmount());
 
-        return performTransferTransaction(fromAccount, toAccount, transactionDTO.getAmount());
+        return this.performTransferTransaction(fromAccount, toAccount, transactionDTO.getAmount());
     }
 }

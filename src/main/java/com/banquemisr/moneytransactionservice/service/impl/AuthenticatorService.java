@@ -73,7 +73,7 @@ public class AuthenticatorService implements IAuthenticator {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = this.jwtUtils.generateJwtToken(authentication);
 
         return LoginResponseDTO.builder()
                 .token(jwt)

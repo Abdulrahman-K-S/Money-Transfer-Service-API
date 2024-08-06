@@ -42,7 +42,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     @CacheEvict(key = "#email")
     public ViewFavoriteRecipientDTO addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws UserNotFoundException, AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
         User user = this.userService.getUserIfExistsByEmail(email);
-        checkIfAccountExistsAndNotAlreadyInFavorites(favoriteRecipientDTO, email);
+        this.checkIfAccountExistsAndNotAlreadyInFavorites(favoriteRecipientDTO, email);
 
         FavoriteRecipients recipient = FavoriteRecipients
                 .builder()
@@ -51,7 +51,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
                 .recipientAccountNumber(favoriteRecipientDTO.getRecipientAccountNumber())
                 .build();
 
-        return favoriteRecipientsRepository.save(recipient).toDTO();
+        return this.favoriteRecipientsRepository.save(recipient).toDTO();
     }
 
     @Override

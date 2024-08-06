@@ -55,10 +55,10 @@ public class UserService implements IUser {
     @Override
     @Transactional
     public Double getRate(CurrencyToFromRateDTO currencyToFromRateDTO) {
-        Double fromAmount = getRateToEGP(CurrencyRateDTO.builder()
+        Double fromAmount = this.getRateToEGP(CurrencyRateDTO.builder()
                 .currency(currencyToFromRateDTO.getFromCurrency()).amount(currencyToFromRateDTO.getAmount())
                 .build());
-        return getRateFromEGP(CurrencyRateDTO.builder()
+        return this.getRateFromEGP(CurrencyRateDTO.builder()
                 .currency(currencyToFromRateDTO.getToCurrency())
                 .amount(fromAmount)
                 .build());
