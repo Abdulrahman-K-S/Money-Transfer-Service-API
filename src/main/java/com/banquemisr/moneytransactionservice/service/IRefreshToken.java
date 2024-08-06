@@ -13,7 +13,7 @@ public interface IRefreshToken {
      * @param email The user's email
      * @return A refresh token object @{@link RefreshToken}
      * */
-    public RefreshToken createRefreshToken(String email);
+    RefreshToken createRefreshToken(String email);
 
     /**
      * Finds a refresh token by the token
@@ -21,7 +21,7 @@ public interface IRefreshToken {
      * @param token The token to look with
      * @return A refresh token object if found @{@link RefreshToken}
      * */
-    public Optional<RefreshToken> findByToken(String token);
+    Optional<RefreshToken> findByToken(String token);
 
     /**
      * Checks if a refresh token is expired
@@ -30,5 +30,5 @@ public interface IRefreshToken {
      * @return The refresh token object if valid
      * @throws RefreshTokenExpiredException If the token is expired
      * */
-    public RefreshToken verifyExpiration(RefreshToken token) throws RefreshTokenExpiredException;
+    RefreshToken verifyExpiration(RefreshToken token) throws RefreshTokenExpiredException;
 }
