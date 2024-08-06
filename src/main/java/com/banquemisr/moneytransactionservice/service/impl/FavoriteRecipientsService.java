@@ -10,6 +10,9 @@ import com.banquemisr.moneytransactionservice.repository.FavoriteRecipientsRepos
 import com.banquemisr.moneytransactionservice.service.IFavoriteRecipients;
 import com.banquemisr.moneytransactionservice.service.IUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "favorites")
 public class FavoriteRecipientsService implements IFavoriteRecipients {
 
     private final FavoriteRecipientsRepository favoriteRecipientsRepository;
@@ -33,6 +37,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @CacheEvict(key = "#email")
     public ViewFavoriteRecipientDTO addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws UserNotFoundException, AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
         User user = this.userService.getUserIfExistsByEmail(email);
         checkIfAccountExistsAndNotAlreadyInFavorites(favoriteRecipientDTO, email);
@@ -48,6 +53,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @Cacheable(key = "#email")
     public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(String email) {
         return this.favoriteRecipientsRepository
                 .findByUser_Email(email)
@@ -57,6 +63,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @CacheEvict(key = "#email")
     public void deleteFavoriteRecipient(Long favoriteRecipientId, String email) throws FavoriteRecipientNotFoundException, FavoriteRecipientAccessNotAllowedException {
         if (Boolean.FALSE.equals(this.favoriteRecipientsRepository.existsByFavoriteRecipientId(favoriteRecipientId))) {
             throw new FavoriteRecipientNotFoundException(String.format("Favorite recipient with id %s not found", favoriteRecipientId));
