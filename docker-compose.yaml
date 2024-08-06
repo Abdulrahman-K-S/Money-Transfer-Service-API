@@ -7,23 +7,24 @@ services:
       - MYSQL_DATABASE=MoneyTransferDB
     ports:
       - 3307:3306
-#  redis:
-#    image: 'redis'
-#    container_name: 'redis_cache'
-#    ports:
-#      - '6380:6379'
+  redis:
+    image: 'redis'
+    container_name: 'redis_cache'
+    ports:
+      - '6380:6379'
   moneyservice:
     build:
       context: .
       dockerfile: Dockerfile
+#    image: abdulrahmanks/bm-intern:latest
     container_name: spring_boot
     restart: always
     ports:
       - 8080:8080
     depends_on:
       - mysql
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/MoneyTransferDB
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
-#      - redis
