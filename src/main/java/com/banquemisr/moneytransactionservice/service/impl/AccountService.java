@@ -61,13 +61,13 @@ public class AccountService implements IAccount {
     public void checkIfFromAndToAccountAreExpired(Account fromAccount, Account toAccount) throws AccountExpiredException {
         YearMonth currentYearMonth = YearMonth.now();
 
-        YearMonth fromAccountYearMonth = YearMonth.of(Integer.parseInt(fromAccount.getExpiryYear()), Integer.parseInt(fromAccount.getExpiryMonth()));
-        if (fromAccountYearMonth.isAfter(currentYearMonth)) {
+        YearMonth fromAccountYearMonth = YearMonth.of(Integer.parseInt("20" + fromAccount.getExpiryYear()), Integer.parseInt(fromAccount.getExpiryMonth()));
+        if (fromAccountYearMonth.isBefore(currentYearMonth)) {
             throw new AccountExpiredException(String.format("Account %s is expired", fromAccount.getAccountNumber()));
         }
 
-        YearMonth toAccountYearMonth = YearMonth.of(Integer.parseInt(toAccount.getExpiryYear()), Integer.parseInt(toAccount.getExpiryMonth()));
-        if (toAccountYearMonth.isAfter(currentYearMonth)) {
+        YearMonth toAccountYearMonth = YearMonth.of(Integer.parseInt("20" + toAccount.getExpiryYear()), Integer.parseInt(toAccount.getExpiryMonth()));
+        if (toAccountYearMonth.isBefore(currentYearMonth)) {
             throw new AccountExpiredException(String.format("Account %s is expired", toAccount.getAccountNumber()));
         }
     }
