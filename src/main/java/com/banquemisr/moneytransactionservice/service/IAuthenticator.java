@@ -1,9 +1,6 @@
 package com.banquemisr.moneytransactionservice.service;
 
-import com.banquemisr.moneytransactionservice.dto.CreateUserDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginRequestDTO;
-import com.banquemisr.moneytransactionservice.dto.LoginResponseDTO;
-import com.banquemisr.moneytransactionservice.dto.UserDTO;
+import com.banquemisr.moneytransactionservice.dto.*;
 import com.banquemisr.moneytransactionservice.exception.custom.UserAlreadyExistsException;
 import com.banquemisr.moneytransactionservice.model.User;
 
@@ -48,4 +45,11 @@ public interface IAuthenticator {
      * @param token The token to blacklist
      * */
     void logout(String token);
+
+    /**
+     * Refreshes the token if it's valid
+     *
+     * @param refreshTokenRequestDTO The refresh token
+     * */
+    LoginResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO);
 }

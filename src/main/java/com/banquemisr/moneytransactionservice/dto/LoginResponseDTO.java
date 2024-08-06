@@ -14,6 +14,7 @@ public class LoginResponseDTO {
 
     private String token;
     private String tokenType;
+    private String refreshToken;
     private String message;
     private HttpStatus status;
 }

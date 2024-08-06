@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .headers(headers -> headers.frameOptions().disable())
                 .exceptionHandling(e -> e.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/register", "/api/login",
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/register", "/api/login", "/api/refreshToken",
                                 "/swagger-ui/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**",
                                 "/h2-console/**").permitAll()
                         .anyRequest().authenticated());
