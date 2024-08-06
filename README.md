@@ -9,6 +9,7 @@ Money-Transaction-Service is a Spring Boot application designed for transferring
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
+- [Deployed Site](#usage)
 - [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [Future Improvements](#future-improvements)
@@ -93,6 +94,9 @@ The main configuration settings are in the `application.properties` file. Ensure
 
 Once the application is up and running, you can use a tool like Postman to interact with the API.
 
+## Deployed Site
+
+The API is currently deployed onto this url => http://18.156.119.108. To run APIs off of this url you'll need to add the por `8080` which is the default springboot application port. You can check out the Swagger Documentation here http://18.156.119.108:8080/swagger-ui/index.html#/. (Site is Up)
 
 ## API Endpoints
 
