@@ -113,6 +113,7 @@ Here are some of the main API endpoints exposed by the application:
 * `POST /api/login` - Authenticate a user and get a JWT token
 * `Post /api/logout` - Logout the user from the system
 * `POST /api/refreshToken` - Refreshes the token if it hasn't expired yet
+* `POST /api/create_account` - Creates an account that is associated with the user
 * `Get /api/balance` - Get user Account Balance
 * `POST /api/transfer` - Transfer money to another account and create a transaction ticket
 * `Get /api/transactions` - Get user Transactions history
