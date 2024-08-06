@@ -1,9 +1,10 @@
-package com.banquemisr.moneytransactionservice.service;
+package com.banquemisr.moneytransactionservice.service.impl;
 
 import com.banquemisr.moneytransactionservice.exception.custom.RefreshTokenExpiredException;
 import com.banquemisr.moneytransactionservice.model.RefreshToken;
 import com.banquemisr.moneytransactionservice.repository.RefreshTokenRepsoitory;
-import com.banquemisr.moneytransactionservice.repository.UserRepository;
+import com.banquemisr.moneytransactionservice.service.IRefreshToken;
+import com.banquemisr.moneytransactionservice.service.IUser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
