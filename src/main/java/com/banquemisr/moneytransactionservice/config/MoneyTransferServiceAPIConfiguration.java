@@ -10,19 +10,14 @@ import org.springframework.context.annotation.Configuration;
 public class MoneyTransferServiceAPIConfiguration {
     @Bean
     public OpenAPI MoneyTransferServiceAPI() {
-        Contact developer1 = new Contact();
-        developer1.setName("Abdulrahman Khaled");
-        developer1.setEmail("AK-Salah@outlook.com");
-
-        Contact developer2 = new Contact();
-        developer2.setName("Abdulrahman Khaled");
-        developer2.setEmail("AK-Salah@outlook.com");
+        Contact contact = new Contact();
+        contact.setName("Abdulrahman Khaled & Mohamed ElSawy");
+        contact.setEmail("AK-Salah@outlook.com & M.elsawy2003@gmail.com");
 
         Info information = new Info().title("Transaction Service API")
                 .version("1.0")
-                .description("This site contains all the nessasary data & information regarding the APIs for the transaction service.")
-                .contact(developer1)
-                .contact(developer2);
+                .description("This site contains all the necessary data & information regarding the APIs for the transaction service.")
+                .contact(contact);
         return new OpenAPI().info(information);
     }
 }
