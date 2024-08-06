@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +38,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @Transactional
     @CacheEvict(key = "#email")
     public ViewFavoriteRecipientDTO addFavoriteRecipient(AddFavoriteRecipientDTO favoriteRecipientDTO, String email) throws UserNotFoundException, AccountNotFoundException, FavoriteRecipientAlreadyExistsException {
         User user = this.userService.getUserIfExistsByEmail(email);
@@ -53,6 +55,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @Transactional
     @Cacheable(key = "#email")
     public List<ViewFavoriteRecipientDTO> getAllFavoriteRecipients(String email) {
         return this.favoriteRecipientsRepository
@@ -63,6 +66,7 @@ public class FavoriteRecipientsService implements IFavoriteRecipients {
     }
 
     @Override
+    @Transactional
     @CacheEvict(key = "#email")
     public void deleteFavoriteRecipient(Long favoriteRecipientId, String email) throws FavoriteRecipientNotFoundException, FavoriteRecipientAccessNotAllowedException {
         if (Boolean.FALSE.equals(this.favoriteRecipientsRepository.existsByFavoriteRecipientId(favoriteRecipientId))) {

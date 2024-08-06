@@ -66,6 +66,7 @@ public class AuthenticatorService implements IAuthenticator {
     }
 
     @Override
+    @Transactional
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword()));
@@ -83,6 +84,7 @@ public class AuthenticatorService implements IAuthenticator {
     }
 
     @Override
+    @Transactional
     public void logout(String token) {
         BlackListedTokens blackListedToken = BlackListedTokens
                 .builder()
