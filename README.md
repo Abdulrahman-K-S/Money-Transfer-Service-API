@@ -155,6 +155,6 @@ Abdulrahman Khaled [Github](https://github.com/Abdulrahman-K-S).
 
 Mohamed ElSawy [Github](https://github.com/Sawy03).
 
-<a href = "https://github.com/Abdulrahman-K-S/Money-Transaction-Service-Backend/graphs/contributors">
-   <img src = "https://contrib.rocks/image?repo=https://github.com/Abdulrahman-K-S/Money-Transaction-Service-Backend"/>
- </a>
+<a href="https://github.com/Abdulrahman-K-S/Money-Transfer-Service-API/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Abdulrahman-K-S/Money-Transfer-Service-API" />
+</a>
