@@ -150,6 +150,9 @@ For a complete list of endpoints and their usage, refer to the OpenAPI documenta
    - Introduce a comprehensive analytics dashboard for users to monitor transaction patterns and financial health.
    - Provide detailed reporting capabilities for transaction histories and account activities.
 
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
 ## Authors
 Abdulrahman Khaled [Github](https://github.com/Abdulrahman-K-S).
 
